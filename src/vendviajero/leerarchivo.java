@@ -38,7 +38,9 @@ public class leerarchivo {
                 coordenadas[fila][1] = (int)Float.parseFloat(parte[2]); //transformo y guardo la coordenada Y
                 linea = entrada.nextLine();  //avanzo a la siguiente coordenada
             }while(!linea.contains("EOF"));  //hasta llegar al fin del archivo
-        } 
+        }catch(Exception e){
+            System.out.println("No se encontró el archivo");
+        }
         return coordenadas;
     }
 }

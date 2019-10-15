@@ -1,7 +1,7 @@
 
 package vendviajero;
 
-public class Ant {
+public class Ant extends Thread{
     private int[] camino; //guarda camino por dónde pasa
     private int[] memoria; //recuerda si paso por ese vector
     
@@ -27,5 +27,14 @@ public class Ant {
     public float costoCamino(AntColony aC){
         float costo = aC.costo(camino);
         return costo;
+    }
+    
+    public void Run(AntColony colonia){
+        float rand = colonia.random.nextFloat();
+        if(rand < colonia.q0){
+            
+        }
+        else{
+        }
     }
 }

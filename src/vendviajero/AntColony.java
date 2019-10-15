@@ -3,17 +3,17 @@ package vendviajero;
 
 import java.util.Random;
 
-public final class AntColony {
-    private final Random random;    
-    private final float alfa; //disolución feromona
-    private final float q0;  //probabilidad de explotación o exploración
-    private final float beta; //potenciación de matriz N
-    private final float[][] distancia;
-    private final float[][] N; //matriz heurística 1/distancia
+public class AntColony {
+    public final Random random;    
+    public final float alfa; //disolución feromona
+    public final float q0;  //probabilidad de explotación o exploración
+    public final float beta; //potenciación de matriz N
+    public final float[][] distancia;
+    public final float[][] N; //matriz heurística 1/distancia
     public Ant[] antVector;
-    private int[] mejorSolucion;
-    private float fitnessMejorSolucion;
-    private float[][] feromonas;
+    public int[] mejorSolucion;
+    public float fitnessMejorSolucion;
+    public float[][] feromonas;
     
     public AntColony(int semilla, float alfa, float q0, float beta,int[][] coordenadas, int tamColonia){
         random = new Random(semilla);
@@ -106,5 +106,20 @@ public final class AntColony {
     public float fitness(){
         return fitnessMejorSolucion;
     }
-    
+    public void setInicio(int[] inicio){
+        for (int i = 0; i < antVector.length; i++) {
+            antVector[i].setCamino(0, inicio[i]);
+        }
+    }
+    public void antStart(AntColony colonia){
+        for (int i = 0; i < antVector.length; i++) {
+            antVector[i].Run(colonia);
+        }
+        for (int i = 0; i < antVector.length; i++) {
+            try{
+                antVector[i].join();
+            }catch(InterruptedException e){
+            }
+        }
+    }
 }
