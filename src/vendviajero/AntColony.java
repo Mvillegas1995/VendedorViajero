@@ -1,6 +1,7 @@
 
 package vendviajero;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class AntColony {
@@ -14,6 +15,7 @@ public class AntColony {
     public int[] mejorSolucion;
     public float fitnessMejorSolucion;
     public float[][] feromonas;
+    public boolean libre;
     
     public AntColony(int semilla, float alfa, float q0, float beta,int[][] coordenadas, int tamColonia){
         random = new Random(semilla);
@@ -43,64 +45,63 @@ public class AntColony {
             for (int j = 0; j < N.length; j++) {
                 if(i == j){
                     feromonas[i][j] = 0;
-                }
+                }else{
                 feromonas[i][j] = 1/fitnessMejorSolucion;
-            }
-        }
-    }
-    public int[] desordenarVector(int[] vector){
-        int rand,temp;
-        if(vector.length < N.length){
-            int[] memTemp = new int[N.length];
-            for (int i = 0; i < memTemp.length; i++) {
-                memTemp[i] = 0;
-            }
-            for (int i = 0; i < vector.length; i++) {
-                rand = random.nextInt(N.length);
-                while(memTemp[rand] == 1){
-                    rand = random.nextInt(N.length);
                 }
-                vector[i] = rand;
-                memTemp[rand]++;
             }
         }
-        else{
-            for (int i = 0; i < vector.length; i++) {
-                vector[i] = i;
+        libre = true;
+    }
+    public final int[] desordenarVector(int[] desordenar){
+        int rand,temp;
+        if(desordenar.length < N.length){
+            ArrayList<Integer> memTemp = new ArrayList<>();
+            for (int i = 0; i < N.length; i++) {
+                memTemp.add(i);
             }
-            for (int i = 0; i < vector.length; i++) {
-            temp = vector[i];
-            rand = random.nextInt(vector.length);
-            vector[i] = vector[rand];
-            vector[rand] = temp;
+            for (int i = 0; i < desordenar.length; i++) {
+                rand = random.nextInt(memTemp.size());
+                desordenar[i] = memTemp.get(rand);
+                memTemp.remove(rand);
             }
         }
-        return vector;
+        else if(desordenar.length == N.length){
+            for (int i = 0; i < desordenar.length; i++) {
+                desordenar[i] = i;
+            }
+            for (int i = 0; i < desordenar.length; i++) {
+            temp = desordenar[i];
+            rand = random.nextInt(desordenar.length);
+            desordenar[i] = desordenar[rand];
+            desordenar[rand] = temp;
+            }
+        }
+        return desordenar;
     }
     private float[][] distancia(int[][] coordenadas){
         int cantPuntos = coordenadas.length;
         //MATRIZ DE COSTOS 
-        float[][]distancia = new float[cantPuntos][cantPuntos];
+        float[][]distanciaZ = new float[cantPuntos][cantPuntos];
         int diferenciaX, diferenciaY;
         for (int i = 0; i < cantPuntos; i++) {
             for (int j = 0; j < cantPuntos; j++) {
                 if (i==j) {
-                    distancia[i][j] = 0;
-                }
-                else{
+                    distanciaZ[i][j] = 0;
+                }else{
                     diferenciaX = coordenadas[i][0] - coordenadas[j][0];
                     diferenciaY = coordenadas[i][1] - coordenadas[j][1];
-                    distancia[i][j] =  (float) Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
+                    distanciaZ[i][j] =  (float) Math.sqrt(Math.pow(diferenciaX, 2) + Math.pow(diferenciaY, 2));
                 }
             }
         }
-        return distancia;
+        return distanciaZ;
     }
-    public float costo(int[] solucion){
+    public final float costo(int[] solucion){
         float costo = 0;
         for (int i = 0; i < (distancia.length-1); i++) {
             costo += distancia[solucion[i]][solucion[i+1]];
-        }        
+        }    
+        costo += distancia[distancia.length-1][0];
         return costo;
     }
     public float fitness(){
@@ -112,12 +113,23 @@ public class AntColony {
         }
     }
     public void antStart(AntColony colonia){
-        for (int i = 0; i < antVector.length; i++) {
-            antVector[i].Run(colonia);
+        //formula 1 matrizFeromona * matrizN^beta
+        float[][] mDeterministica = new float[N.length][N.length];
+        for (int i = 0; i < mDeterministica.length; i++) {
+            for (int j = 0; j < mDeterministica.length; j++) {
+                if(i == j){
+                    mDeterministica[i][j] = 0;
+                }else{
+                    mDeterministica[i][j] = feromonas[i][j]*(float)Math.pow(N[i][j],beta);
+                }                
+            }
         }
-        for (int i = 0; i < antVector.length; i++) {
-            try{
-                antVector[i].join();
+        for (Ant antVector1 : antVector) {
+            antVector1.Run(colonia, mDeterministica);
+        }
+        for (Ant antVector1 : antVector) {
+            try {
+                antVector1.join();
             }catch(InterruptedException e){
             }
         }
