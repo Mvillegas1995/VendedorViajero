@@ -101,7 +101,7 @@ public class AntColony {
         for (int i = 0; i < (distancia.length-1); i++) {
             costo += distancia[solucion[i]][solucion[i+1]];
         }    
-        costo += distancia[distancia.length-1][0];
+        costo += distancia[solucion[solucion.length-1]][solucion[0]];
         return costo;
     }
     public float fitness(){
@@ -120,8 +120,8 @@ public class AntColony {
                 if(i == j){
                     mDeterministica[i][j] = 0;
                 }else{
-                    mDeterministica[i][j] = feromonas[i][j]*(float)Math.pow(N[i][j],beta);
-                }                
+                    mDeterministica[i][j] = feromonas[i][j]*(float)Math.pow(N[i][j],beta);                   
+                } 
             }
         }
         for (Ant antVector1 : antVector) {

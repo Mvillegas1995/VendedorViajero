@@ -8,11 +8,11 @@ public class VendViajero {
         //agregar en forma de args
         
         int semilla = 1;
-        int tamColonia = 52;
+        int tamColonia = 15;
         float alfa = (float)0.1;
-        float q0 = (float)0.9;
+        float q0 = (float)1.0;
         float beta = (float)2.5;
-        int iteracion = 100000;
+        int iteracion = 1;
         int cantIteracion = 0;
         //float optimo = (float)7544.3659;
         String dataSet = "berlin52.txt";

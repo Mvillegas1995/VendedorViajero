@@ -10,7 +10,7 @@ public class Ant extends Thread{
     public Ant(int tamMemoria){
         camino = new int[tamMemoria];
         memoria = new ArrayList<>();
-        reestablecerMemoria();       
+               
     }
     public void setCamino(int pos, int visitar){
         camino[pos] = visitar;
@@ -26,7 +26,7 @@ public class Ant extends Thread{
         for (int i = 0; i < camino.length; i++) {
             memoria.add(i);
         }
-        memoria.remove(camino[0]);
+        memoria.remove(memoria.indexOf(camino[0]));
     }
     public float costoCamino(AntColony aC){
         float costo = aC.costo(camino);
@@ -34,14 +34,37 @@ public class Ant extends Thread{
     }
     
     public void Run(AntColony colonia, float[][] mDeterministica){
+        reestablecerMemoria();
+        float valorMayor;
+        int indiceMayor = -1;
         float rand = colonia.random.nextFloat();
-        for (int i = 1; i < mDeterministica.length; i++) {   
-            
-            if(rand < colonia.q0){
+        for (int i = 1; i < mDeterministica.length; i++) {  
+            valorMayor = Integer.MIN_VALUE;
+            for (int j = 0; j < memoria.size(); j++) {              
+                if(mDeterministica[camino[i-1]][memoria.get(j)] > valorMayor){
+                    valorMayor = mDeterministica[camino[i-1]][memoria.get(j)];
+                    indiceMayor = memoria.get(j);
+                }
+            }
+            if(rand < colonia.q0){                      //Explotación
+                camino[i] = indiceMayor;
+                memoria.remove(memoria.indexOf(indiceMayor));
+                System.out.println(indiceMayor);
+                for (int a:memoria) {
+                    System.out.print(a+" ");
+                }
+                System.out.println("");
+            }
+            else{                                       //Exploración
                 
             }
-            else{
-            }
+            
         }
+        for (int i = 0; i < camino.length; i++) {
+            System.out.print(camino[i]+" ");
+        }
+        System.out.println("");
+        System.out.println("");
+        System.out.println("costo: "+colonia.costo(camino));
     }
 }
