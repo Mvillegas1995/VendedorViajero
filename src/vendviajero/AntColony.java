@@ -39,11 +39,12 @@ public class AntColony {
         }
         mejorSolucion = new int[N.length];
         mejorSolucion = desordenarVector(mejorSolucion); //desordeno mejor solucion
-        fitnessMejorSolucion = costo(mejorSolucion);    //obtengo el fitness de esa solucion
+        fitnessMejorSolucion = costo(mejorSolucion);         //obtengo el fitness de esa solucion
         feromonas = new float[N.length][N.length];
-        for (int i = 0; i < N.length; i++) {            //inicializo matriz de feromonas
-            for (int j = 0; j < N.length; j++) {
-                if(i == j){
+        
+        for ( int i = 0; i < N.length; i++ ) {                    //inicializo matriz de feromonas
+            for ( int j = 0; j < N.length; j++ ) {
+                if ( i == j ){
                     feromonas[i][j] = 0;
                 }else{
                 feromonas[i][j] = 1/fitnessMejorSolucion;

@@ -10,7 +10,7 @@ public class VendViajero {
         int semilla = 1;
         int tamColonia = 15;
         float alfa = (float)0.1;
-        float q0 = (float)1.0;
+        float q0 = (float)0.8;
         float beta = (float)2.5;
         int iteracion = 1;
         int cantIteracion = 0;
