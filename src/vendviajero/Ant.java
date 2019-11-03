@@ -64,7 +64,7 @@ public class Ant extends Thread{
         float valorMayor;
         int indiceMayor = -1;
         float rand;     
-        for (int i = 1; i < mDeterministica.length; i++) {   
+        for (int i = 1; i < mDeterministica.length-1; i++) {   
             rand = colonia.random.nextFloat();
             if(rand < colonia.q0){                                                                   //Explotación
                 valorMayor = Integer.MIN_VALUE;
@@ -104,11 +104,19 @@ public class Ant extends Thread{
                 });
                 System.out.println("");
             }
-            
+            //Actualización local
+            colonia.feromonas[camino[i-1]][camino[i]] = ((1-colonia.alfa)*colonia.feromonas[camino[i-1]][camino[i]]) +(colonia.alfa*colonia.vif) ; //formula 4 
         }
+        camino[mDeterministica.length-1] = memoria.get(0);  //para que el último camino se ponga automáticamente
+        memoria.remove(0);
+        colonia.feromonas[camino[camino.length-2]][camino[camino.length-1]] = ((1-colonia.alfa)*                      //De la penúltima posición a la última
+                colonia.feromonas[camino[camino.length-2]][camino[camino.length-1]]) +(colonia.alfa*colonia.vif) ;
+        colonia.feromonas[camino[camino.length-1]][camino[0]] = ((1-colonia.alfa)*                                          //De la última posición hasta la primera
+                colonia.feromonas[camino[camino.length-1]][camino[0]]) + (colonia.alfa*colonia.vif);
         for (int i = 0; i < camino.length; i++) {
             System.out.print(camino[i]+" ");
         }
+
         System.out.println("");
         System.out.println("");
         System.out.println("costo: "+colonia.costo(camino));

@@ -9,19 +9,22 @@ public class AntColony {
     public final float alfa; //disolución feromona
     public final float q0;  //probabilidad de explotación o exploración
     public final float beta; //potenciación de matriz N
+    public final float gama;//Refuerzo positivo de feromona
+    public final float vif; //valor inicial de feromona 
     public final float[][] distancia;
     public final float[][] N; //matriz heurística 1/distancia
     public Ant[] antVector;
     public int[] mejorSolucion;
     public float fitnessMejorSolucion;
     public float[][] feromonas;
-    public boolean libre;
+    public boolean ocupado;
     
-    public AntColony(int semilla, float alfa, float q0, float beta,int[][] coordenadas, int tamColonia){
+    public AntColony(int semilla, float alfa, float q0, float beta,int[][] coordenadas, int tamColonia, float gama){
         random = new Random(semilla);
         this.alfa = alfa;
         this.q0 = q0;
         this.beta = beta;
+        this.gama = gama;
         distancia = distancia(coordenadas);
         N = new float[distancia.length][distancia.length];
         for (int i = 0; i < N.length; i++) {
@@ -41,7 +44,7 @@ public class AntColony {
         mejorSolucion = desordenarVector(mejorSolucion); //desordeno mejor solucion
         fitnessMejorSolucion = costo(mejorSolucion);         //obtengo el fitness de esa solucion
         feromonas = new float[N.length][N.length];
-        
+        vif = 1/fitnessMejorSolucion;
         for ( int i = 0; i < N.length; i++ ) {                    //inicializo matriz de feromonas
             for ( int j = 0; j < N.length; j++ ) {
                 if ( i == j ){
@@ -51,7 +54,7 @@ public class AntColony {
                 }
             }
         }
-        libre = true;
+        ocupado = false;
     }
     public final int[] desordenarVector(int[] desordenar){
         int rand,temp;
