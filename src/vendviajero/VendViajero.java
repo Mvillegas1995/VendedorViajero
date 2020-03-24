@@ -6,17 +6,19 @@ import static vendviajero.AntColony.*;
 public class VendViajero {
 
     public static void main(String[] args) throws FileNotFoundException {
-        
+        //PARÁMETROS A MODIFICAR
         int semilla =8;
         int tamColonia = 15;
         float iteracion = 10000;
         float alfa = (float)0.1;  //Factor de evaporación de feromona
         float q0 = (float)0.9;    //Probabilidad de avanzar por medio de explotación o exploración
-        float beta = (float)4.5; //Peso de valor de heurística        
+        float beta = (float)4.5; //Peso de valor de heurística  
+        String dataSet = "berlin52.txt";
+        //FIN DE ARÁMETROS A MODIFICAR
         float cantIteracion = 0;
         int porcentaje = 0;
         int anterior=0;
-        String dataSet = "berlin52.txt";
+        
         
         if(args.length == 0);  //En caso de no ingresar parámetros se ingresarán por defecto los establecidos en líneas de arriba
         else if(args.length != 7){
