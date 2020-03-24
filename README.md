@@ -24,6 +24,8 @@ Para modificar los parámetros de entrada debemos ir a la clase principal VendVi
 - beta: Peso de valor de heurística.
 - daraSet: Ruta de acceso a los datos de las ciudades y sus distancias.
 
+# Tipos de atributos
+
 - semilla: Entero positivo.  
 - tamColonia: Entero positivo.  
 - iteracion: Entero positivo.  
