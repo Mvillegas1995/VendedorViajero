@@ -13,6 +13,7 @@ Proyecto realizado en Netbeans IDE 8.2;
 # Ejecucion 
 
 > El programa está previamente compilado, solo falta abrirlo como proyecto en la IDE Netbeans y dar click a RUN.
+
 Para modificar los parámetros de entrada debemos ir a la clase principal VendViajero y modificar los atributos ubicados entre las líneas 10 y 16, los cuales son los siguientes:
 
 - semilla: Valor de semilla para generación de números randomicos.  
