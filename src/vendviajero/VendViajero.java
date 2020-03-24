@@ -19,7 +19,7 @@ public class VendViajero {
         int porcentaje = 0;
         int anterior=0;
         
-        
+        //Esta sección se creo para poder ingresar los parámetros vía terminal.
         if(args.length == 0);  //En caso de no ingresar parámetros se ingresarán por defecto los establecidos en líneas de arriba
         else if(args.length != 7){
             System.out.println("Faltan argumentos o puso demasiados al momento de ingresar");
